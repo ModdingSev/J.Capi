@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Variables CSS ───────────────────────────────────────────────────────── */
+:root {
+  --color-primary: #CC0000;
+  --color-primary-dark: #A80000;
+  --color-bg: #F4F2EE;
+  --header-main-height: 64px;
+  --header-catalog-height: 56px;
+}
+
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F4F2EE;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar personalizado ────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #CC0000;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A80000;
+}
+
+/* ─── Componentes utilitarios ────────────────────────────────────────────── */
+@layer components {
+  /* Contenedor principal */
+  .container-site {
+    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Botones */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-primary-700 hover:bg-primary-800 
+           text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-primary-700 
+           text-primary-700 hover:bg-primary-700 hover:text-white font-semibold 
+           px-6 py-3 rounded-lg transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-gray-700 hover:text-primary-700 
+           hover:bg-gray-100 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  /* Cards de producto */
+  .product-card {
+    @apply bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover 
+           transition-all duration-300 hover:-translate-y-1;
+  }
+
+  /* Etiqueta energética */
+  .energy-badge {
+    @apply inline-flex items-center justify-center text-xs font-bold px-2 py-0.5 rounded;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+
+  /* Badge de oferta */
+  .badge-sale {
+    @apply absolute top-3 left-3 bg-primary-700 text-white text-xs font-bold 
+           px-2 py-1 rounded-md z-10;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb-item {
+    @apply text-sm text-gray-500 hover:text-primary-700 transition-colors;
+  }
+}
+
+/* ─── Animaciones ────────────────────────────────────────────────────────── */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── MegaMenu ───────────────────────────────────────────────────────────── */
+.mega-menu {
+  @apply absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 z-50;
+  animation: slideDown 0.18s ease-out;
+}
+
+/* ─── Filtros drawer (móvil) ─────────────────────────────────────────────── */
+.filter-drawer {
+  @apply fixed inset-0 z-50 flex;
+}
+
+.filter-drawer-overlay {
+  @apply absolute inset-0 bg-black/40;
+  animation: fadeIn 0.2s ease;
+}
+
+.filter-drawer-panel {
+  @apply relative w-80 max-w-full bg-white h-full overflow-y-auto shadow-2xl;
+  animation: slideRight 0.25s ease-out;
+}
+
+@keyframes slideRight {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ─── Imágenes de producto ───────────────────────────────────────────────── */
+.product-image-placeholder {
+  @apply flex items-center justify-center bg-gray-100 text-gray-300;
+}
