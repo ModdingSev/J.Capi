@@ -11,6 +11,10 @@ import categoryRouter from './routes/categories';
 import filterRouter from './routes/filters';
 import blogRouter from './routes/blog';
 import searchRouter from './routes/search';
+import reservationRouter from './routes/reservations';
+import adminRouter from './routes/admin';
+
+import { startSyncCron } from './services/syncService';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -63,6 +67,8 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/filters', filterRouter);
 app.use('/api/blog', blogRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/reservations', reservationRouter);
+app.use('/api/admin', adminRouter);
 
 // ─── HEALTH CHECK ─────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
@@ -100,6 +106,9 @@ app.use(
 app.listen(PORT, () => {
   console.log(`🚀 J. Capi API corriendo en http://localhost:${PORT}`);
   console.log(`📄 Health check: http://localhost:${PORT}/api/health`);
+  
+  // Iniciar servicio de sincronización cronometrada
+  startSyncCron();
 });
 
 export default app;

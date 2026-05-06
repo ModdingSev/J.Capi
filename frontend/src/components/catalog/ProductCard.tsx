@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ShoppingCart, Zap } from 'lucide-react';
 import type { Product } from '@/types';
 import { formatPrice, getDiscountPercent, getEnergyColor, getPrimaryImage } from '@/lib/utils';
+import { useReservationCart } from '@/components/ReservationCartProvider';
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +15,19 @@ export default function ProductCard({ product }: ProductCardProps) {
   const imageUrl = getPrimaryImage(product.images);
   const discount = getDiscountPercent(product.price, product.comparePrice);
   const energyColor = getEnergyColor(product.energyRating);
+  const { addItem } = useReservationCart();
+
+  const handleReserve = (e: React.MouseEvent) => {
+    e.preventDefault(); // Evitar navegación si estuviera dentro de un link
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: Number(product.price),
+      quantity: 1,
+      image: imageUrl,
+    });
+    // Opcional: mostrar un toast o mensaje
+  };
 
   return (
     <article className="product-card group">
@@ -110,11 +124,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           </div>
 
-          {/* Botón añadir al carrito */}
+          {/* Botón reservar */}
           <button
+            onClick={handleReserve}
             className="flex items-center justify-center w-9 h-9 bg-[#CC0000] hover:bg-[#A80000] 
                        text-white rounded-lg transition-colors duration-200 flex-shrink-0"
-            aria-label={`Añadir ${product.name} al carrito`}
+            aria-label={`Reservar ${product.name}`}
+            title="Añadir a reservas"
           >
             <ShoppingCart className="w-4 h-4" />
           </button>
@@ -123,11 +139,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Stock */}
         {product.stock <= 3 && product.stock > 0 && (
           <p className="text-xs text-orange-600 font-medium mt-2">
-            ¡Solo quedan {product.stock} unidades!
+            ¡Solo quedan {product.stock} en tienda!
           </p>
         )}
         {product.stock === 0 && (
-          <p className="text-xs text-gray-500 mt-2">Sin stock</p>
+          <p className="text-xs text-orange-600 mt-2 font-medium">Bajo pedido (Sin stock actual)</p>
         )}
       </div>
     </article>

@@ -6,6 +6,7 @@ import { ShoppingCart, Zap, Package, Ruler, Volume2, Check } from 'lucide-react'
 import { getProduct } from '@/lib/api';
 import ProductCard from '@/components/catalog/ProductCard';
 import Breadcrumb from '@/components/catalog/Breadcrumb';
+import ReserveButton from '@/components/catalog/ReserveButton';
 import { formatPrice, getDiscountPercent, getEnergyColor, getPrimaryImage } from '@/lib/utils';
 
 interface ProductPageProps {
@@ -256,15 +257,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {/* Botones */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <button className="btn-primary flex-1 justify-center py-4 text-base">
-                <ShoppingCart className="w-5 h-5" />
-                Añadir al carrito
-              </button>
-              <button className="btn-secondary flex-1 justify-center py-4 text-base">
-                Comprar ahora
-              </button>
-            </div>
+            <ReserveButton 
+              product={{
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                imageUrl: imageUrl
+              }} 
+            />
+
+            {/* Estado del stock */}
+            {product.stock <= 3 && product.stock > 0 && (
+              <p className="text-sm text-orange-600 font-medium">
+                ¡Solo quedan {product.stock} en tienda!
+              </p>
+            )}
+            {product.stock === 0 && (
+              <p className="text-sm text-orange-600 font-medium">Bajo pedido (Sin stock actual, pero puedes reservarlo)</p>
+            )}
 
             {/* SKU */}
             {product.sku && (

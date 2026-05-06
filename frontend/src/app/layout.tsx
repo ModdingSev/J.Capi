@@ -5,6 +5,7 @@ import MainTopBar from '@/components/layout/MainTopBar';
 import CatalogTopBar from '@/components/layout/CatalogTopBar';
 import Footer from '@/components/layout/Footer';
 import { Suspense } from 'react';
+import { ReservationCartProvider } from '@/components/ReservationCartProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -96,21 +97,23 @@ export default function RootLayout({
           }}
         />
 
-        {/* ── Header principal (siempre visible, SIN buscador) ── */}
-        <MainTopBar />
+        <ReservationCartProvider>
+          {/* ── Header principal (siempre visible, SIN buscador) ── */}
+          <MainTopBar />
 
-        {/* ── Segundo top bar (SOLO catálogo, CON buscador) ── */}
-        <Suspense fallback={null}>
-          <CatalogTopBar />
-        </Suspense>
+          {/* ── Segundo top bar (SOLO catálogo, CON buscador) ── */}
+          <Suspense fallback={null}>
+            <CatalogTopBar />
+          </Suspense>
 
-        {/* ── Contenido ── */}
-        <main className="flex-1">
-          {children}
-        </main>
+          {/* ── Contenido ── */}
+          <main className="flex-1">
+            {children}
+          </main>
 
-        {/* ── Footer ── */}
-        <Footer />
+          {/* ── Footer ── */}
+          <Footer />
+        </ReservationCartProvider>
       </body>
     </html>
   );

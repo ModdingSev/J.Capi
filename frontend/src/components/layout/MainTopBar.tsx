@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingCart, Menu, X, Phone } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useReservationCart } from '@/components/ReservationCartProvider';
 
 const NAV_LINKS = [
   { href: '/', label: 'Inicio' },
@@ -16,6 +17,12 @@ const NAV_LINKS = [
 export default function MainTopBar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { totalItems } = useReservationCart();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -76,9 +83,11 @@ export default function MainTopBar() {
             >
               <ShoppingCart className="w-5 h-5" />
               {/* Badge de items */}
-              <span className="absolute -top-0.5 -right-0.5 bg-yellow-400 text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                0
-              </span>
+              {mounted && totalItems > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-yellow-400 text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
             </Link>
 
             {/* Botón menú móvil */}

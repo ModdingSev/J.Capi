@@ -35,6 +35,16 @@ const nextConfig = {
       },
     ];
   },
+
+  // Rewrites para imágenes faltantes
+  async rewrites() {
+    return [
+      {
+        source: '/images/:path*',
+        destination: 'https://placehold.co/600x600/eeeeee/333333.png?text=Product',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

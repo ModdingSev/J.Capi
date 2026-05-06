@@ -78,6 +78,8 @@ model Product {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   images          ProductImage[]
+  externalSyncId  String?        // ID en Classy G
+  reservationItems ReservationItem[]
 
   @@index([categoryId])
   @@index([brandId])
@@ -114,4 +116,38 @@ model BlogPost {
   updatedAt       DateTime @updatedAt
 
   @@map("blog_posts")
+}
+
+// ─── RESERVATIONS ─────────────────────────────────────────────────────────────
+enum ReservationStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model Reservation {
+  id            Int               @id @default(autoincrement())
+  customerName  String
+  customerEmail String?
+  customerPhone String
+  status        ReservationStatus @default(PENDING)
+  total         Decimal           @db.Decimal(10, 2)
+  notes         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  items         ReservationItem[]
+
+  @@map("reservations")
+}
+
+model ReservationItem {
+  id            Int         @id @default(autoincrement())
+  reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  reservationId Int
+  product       Product     @relation(fields: [productId], references: [id])
+  productId     Int
+  quantity      Int
+  price         Decimal     @db.Decimal(10, 2)
+
+  @@map("reservation_items")
 }

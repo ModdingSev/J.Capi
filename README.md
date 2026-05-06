@@ -34,64 +34,75 @@ JCAPI/
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Inicio Rápido (Despliegue con Docker)
+
+El proyecto está preparado para desplegarse de forma sencilla y unificada usando **Docker Compose**, lo que levantará automáticamente el Frontend, el Backend, la base de datos PostgreSQL y un gestor pgAdmin.
 
 ### Requisitos
 
-- Node.js >= 18
-- PostgreSQL >= 14
-- npm >= 9
+- Docker
+- Docker Compose
+
+### Pasos de Despliegue
+
+1. **Abre tu terminal** en la carpeta raíz del proyecto (`JCAPI`).
+2. **Ejecuta Docker Compose**:
+   ```bash
+   docker-compose up --build
+   ```
+   *(Añade `-d` al final si quieres ejecutarlo en segundo plano).*
+
+¡Ya está! Docker se encarga de:
+- Instalar las dependencias (`npm install`) tanto en el backend como en el frontend.
+- Ejecutar las migraciones de base de datos (`npx prisma db push`).
+- Generar los datos de prueba (`npx prisma db seed`).
+
+### 🌐 Servicios Disponibles
+
+Una vez que termine el proceso, tendrás disponibles los siguientes servicios:
+
+- **Frontend (Catálogo y Reservas)**: `http://localhost:3000`
+- **Panel de Administración (TPV)**: `http://localhost:3000/admin` (Contraseña por defecto: `admin123`)
+- **Backend (API REST)**: `http://localhost:4000`
+- **Base de Datos (PostgreSQL)**: Expuesta en el puerto `5432`
+- **pgAdmin (Gestor de BD visual)**: `http://localhost:5050`
+  - *Email*: `admin@admin.com`
+  - *Password*: `admin`
 
 ---
 
-### 1. Base de Datos
+## 🛠️ Desarrollo en Local (Modo manual sin Docker)
 
+Si necesitas desarrollar y prefieres no usar Docker para los servidores Node.js, sigue estos pasos (necesitas Node.js >= 18 y PostgreSQL instalados):
+
+### 1. Preparar Base de Datos (PostgreSQL)
 ```bash
-# Crear base de datos PostgreSQL
 createdb jcapi_db
 ```
 
----
-
-### 2. Backend
-
+### 2. Levantar el Backend
 ```bash
 cd backend
 npm install
 
-# Configurar variables de entorno
-cp .env.example .env
-# Editar .env con tu cadena de conexión PostgreSQL
-
-# Ejecutar migraciones
-npx prisma migrate dev --name init
-
-# Poblar datos de prueba
+# Generar cliente y migrar base de datos
+npx prisma generate
+npx prisma db push
 npx prisma db seed
-
-# Iniciar servidor
-npm run dev
-```
-
-El backend estará disponible en: `http://localhost:4000`
-
----
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
-
-# Configurar variables de entorno
-cp .env.example .env.local
-# Por defecto apunta a http://localhost:4000
 
 # Iniciar servidor de desarrollo
 npm run dev
 ```
 
-El frontend estará disponible en: `http://localhost:3000`
+### 3. Levantar el Frontend
+Abre otra terminal:
+```bash
+cd frontend
+npm install
+
+# Iniciar servidor de desarrollo
+npm run dev
+```
 
 ---
 
