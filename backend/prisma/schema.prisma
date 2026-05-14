@@ -78,7 +78,7 @@ model Product {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   images          ProductImage[]
-  externalSyncId  String?        // ID en Classy G
+  externalSyncId  String?        // Ref. proveedor / EAN de ClassicGes
   reservationItems ReservationItem[]
 
   @@index([categoryId])

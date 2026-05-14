@@ -13,6 +13,7 @@ import blogRouter from './routes/blog';
 import searchRouter from './routes/search';
 import reservationRouter from './routes/reservations';
 import adminRouter from './routes/admin';
+import syncRouter from './routes/sync';
 
 import { startSyncCron } from './services/syncService';
 
@@ -69,6 +70,7 @@ app.use('/api/blog', blogRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/reservations', reservationRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/sync', syncRouter);
 
 // ─── HEALTH CHECK ─────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {

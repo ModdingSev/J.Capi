@@ -65,12 +65,12 @@ router.put('/reservations/:id/complete', requireAdmin, async (req, res) => {
       data: { status: 'COMPLETED' }
     });
 
-    // 3. Simular descuento de stock en Classy G y en local
-    // (En un futuro aquí se haría la llamada real a la API de Classy G usando product.externalSyncId)
+    // 3. Descontar stock localmente
+    // El stock real lo gestiona ClassicGes. Aquí actualizamos la web para reflejarlo al instante.
+    // En la próxima sincronización del agente local, el stock se sobreescribirá con el valor real de ClassicGes.
     for (const item of reservation.items) {
       if (item.product) {
-        console.log(`[SYNC] Restando ${item.quantity} del producto ${item.product.name} (SyncID: ${item.product.externalSyncId || 'N/A'}) en Classy G...`);
-        // Actualizamos nuestro propio stock también para reflejarlo en la web al instante si queremos
+        console.log(`[STOCK] Restando ${item.quantity}x ${item.product.name} (SKU: ${item.product.sku || 'N/A'}) del stock local`);
         await prisma.product.update({
           where: { id: item.productId },
           data: { stock: Math.max(0, item.product.stock - item.quantity) }

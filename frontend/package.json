@@ -1,6 +1,6 @@
 {
   "name": "jcapi-frontend",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Frontend Next.js para J. Capi - Tienda de Electrodomésticos",
   "private": true,
   "scripts": {
