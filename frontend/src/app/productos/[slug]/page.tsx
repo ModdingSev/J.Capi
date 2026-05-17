@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingCart, Zap, Package, Ruler, Volume2, Check } from 'lucide-react';
 import { getProduct } from '@/lib/api';
 import ProductCard from '@/components/catalog/ProductCard';
+import ProductImage from '@/components/catalog/ProductImage';
 import Breadcrumb from '@/components/catalog/Breadcrumb';
 import ReserveButton from '@/components/catalog/ReserveButton';
 import { formatPrice, getDiscountPercent, getEnergyColor, getPrimaryImage } from '@/lib/utils';
@@ -127,10 +127,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {discount && (
                 <span className="badge-sale text-base px-3 py-1.5">-{discount}%</span>
               )}
-              <Image
+              <ProductImage
                 src={imageUrl}
                 alt={product.images[0]?.alt ?? product.name}
-                fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-contain p-8"
                 priority
@@ -146,10 +145,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                                border-2 border-gray-100 hover:border-red-300 cursor-pointer 
                                transition-colors"
                   >
-                    <Image
+                    <ProductImage
                       src={img.url}
                       alt={img.alt ?? `${product.name} imagen ${i + 1}`}
-                      fill
                       sizes="64px"
                       className="object-contain p-1"
                     />

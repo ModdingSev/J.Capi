@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ProductImage from '@/components/catalog/ProductImage';
 import { useReservationCart } from '@/components/ReservationCartProvider';
 import { formatPrice } from '@/lib/utils';
 import { Trash2, ShoppingBag, ShoppingCart } from 'lucide-react';
@@ -100,7 +100,7 @@ export default function CarritoPage() {
             {items.map((item) => (
               <div key={item.productId} className="flex gap-4 items-center border-b border-gray-50 pb-6 last:border-0 last:pb-0">
                 <div className="w-20 h-20 relative bg-gray-50 rounded-lg flex-shrink-0">
-                  <Image src={item.image || '/images/placeholder.svg'} alt={item.name} fill className="object-contain p-2" />
+                  <ProductImage src={item.image || '/images/placeholder.svg'} alt={item.name} sizes="80px" className="object-contain p-2" />
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 line-clamp-2">{item.name}</h3>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingCart, Zap } from 'lucide-react';
@@ -13,6 +14,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const imageUrl = getPrimaryImage(product.images);
+  const [imgError, setImgError] = useState(false);
   const discount = getDiscountPercent(product.price, product.comparePrice);
   const energyColor = getEnergyColor(product.energyRating);
   const { addItem } = useReservationCart();
@@ -45,18 +47,22 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Imagen del producto */}
         <div className="relative w-full h-full">
-          <Image
-            src={imageUrl}
-            alt={product.images[0]?.alt ?? product.name}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-            onError={(e) => {
-              // Fallback si la imagen no carga
-              (e.currentTarget as HTMLImageElement).src = '/images/placeholder-product.svg';
-            }}
-          />
+          {imgError ? (
+            <div className="w-full h-full flex items-center justify-center bg-gray-100">
+              <span className="text-gray-400 text-xs text-center px-4 line-clamp-3">{product.name}</span>
+            </div>
+          ) : (
+            <Image
+              src={imageUrl}
+              alt={product.images[0]?.alt ?? product.name}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+              unoptimized
+              onError={() => setImgError(true)}
+            />
+          )}
         </div>
       </Link>
 

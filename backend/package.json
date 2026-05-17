@@ -1,6 +1,6 @@
 {
   "name": "jcapi-backend",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Backend API para J. Capi - Tienda de Electrodomésticos",
   "main": "dist/index.js",
   "scripts": {
